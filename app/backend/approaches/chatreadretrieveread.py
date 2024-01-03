@@ -59,7 +59,7 @@ class ChatReadRetrieveReadApproach(ChatApproach):
         {follow_up_questions_prompt}
         {injected_prompt}
         """
-
+   
     @overload
     async def run_until_final_call(
         self,
