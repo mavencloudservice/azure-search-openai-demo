@@ -2,11 +2,7 @@ import { Example } from "./Example";
 
 import styles from "./Example.module.css";
 
-const DEFAULT_EXAMPLES: string[] = [
-    "What is included in my Northwind Health Plus plan that is not in standard?",
-    "What happens in a performance review?",
-    "What does a Product Manager do?"
-];
+const DEFAULT_EXAMPLES: string[] = ["조직의 변경은 누가 결정하나요?", "월급날은 언제인가요?", "재무회계팀 영문명이 무엇인가요?"];
 
 const GPT4V_EXAMPLES: string[] = [
     "Compare the impact of interest rates and GDP in financial markets.",
