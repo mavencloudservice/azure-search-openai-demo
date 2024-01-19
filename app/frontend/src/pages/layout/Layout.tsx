@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Link } from "react-router-dom";
 
-import github from "../../assets/github.svg";
+import text_logo from "../../assets/text_img.svg";
 
 import styles from "./Layout.module.css";
 
@@ -14,7 +14,7 @@ const Layout = () => {
             <header className={styles.header} role={"banner"}>
                 <div className={styles.headerContainer}>
                     <Link to="/" className={styles.headerTitleContainer}>
-                        <h3 className={styles.headerTitle}>AiM</h3>
+                        <img src={text_logo} alt="AiM" className={styles.textLogo}></img>
                     </Link>
                     <h4 className={styles.headerRightText}>Maven Cloud Service</h4>
                     {useLogin && <LoginButton />}
