@@ -1,5 +1,5 @@
-import { Sparkle28Filled } from "@fluentui/react-icons";
+import logo_001 from "../../assets/logo_001.png";
 
 export const AnswerIcon = () => {
-    return <Sparkle28Filled primaryFill={"rgba(115, 118, 225, 1)"} aria-hidden="true" aria-label="Answer logo" />;
+    return <img src={logo_001} alt="AiM logo" aria-label="AiM logo" width="28px" height="28px" />;
 };

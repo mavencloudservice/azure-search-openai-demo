@@ -5,8 +5,10 @@ import { initReactI18next } from "react-i18next";
 
 import enTranslation from "../locales/en/translation.json";
 import esTranslation from "../locales/es/translation.json";
+import koTranslation from "../locales/ko/translation.json";
 import jaTranslation from "../locales/ja/translation.json";
 import frTranslation from "../locales/fr/translation.json";
+import { transitionKeysAreEqual } from "@fluentui/react";
 
 export const supportedLngs: { [key: string]: { name: string; locale: string } } = {
     en: {
@@ -20,6 +22,10 @@ export const supportedLngs: { [key: string]: { name: string; locale: string } } 
     fr: {
         name: "Français",
         locale: "fr-FR"
+    },
+    ko: {
+        name: "한국어",
+        locale: "ko-KR"
     },
     ja: {
         name: "日本語",
@@ -38,9 +44,10 @@ i18next
             en: { translation: enTranslation },
             es: { translation: esTranslation },
             fr: { translation: frTranslation },
+            ko: { translation: koTranslation },
             ja: { translation: jaTranslation }
         },
-        fallbackLng: "en",
+        fallbackLng: "ko",
         supportedLngs: Object.keys(supportedLngs),
         debug: import.meta.env.DEV,
         interpolation: {

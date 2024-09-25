@@ -52,17 +52,9 @@ const Layout = () => {
                                     {t("chat")}
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink
-                                    to="/qa"
-                                    className={({ isActive }) => (isActive ? styles.headerNavPageLinkActive : styles.headerNavPageLink)}
-                                    onClick={() => setMenuOpen(false)}
-                                >
-                                    {t("qa")}
-                                </NavLink>
-                            </li>
                         </ul>
                     </nav>
+                    <h4 className={styles.headerRightText}>Maven Cloud Service</h4>
                     <div className={styles.loginMenuContainer}>
                         {useLogin && <LoginButton />}
                         <IconButton
