@@ -40,7 +40,6 @@ Navigate to the URL shown in the terminal (in this case, `http://localhost:5173/
 
 Then, whenever you make changes to frontend files, the changes will be automatically reloaded, without any browser refresh needed.
 
-
 ## Using a local OpenAI-compatible API
 
 You may want to save costs by developing against a local LLM server, such as
@@ -65,3 +64,7 @@ If you're running inside a dev container, use this local URL instead:
 ```shell
 azd env set OPENAI_BASE_URL http://host.docker.internal:8080/v1
 ```
+
+> [!NOTE]
+> You must set this back to a non-local value ("azure", "azure_custom", or "openai")
+> before running `azd up` or `azd provision`, since the deployed backend can't access your local server.

@@ -1,7 +1,10 @@
 import json
 from collections import namedtuple
+from io import BytesIO
 from typing import Optional
 
+import openai.types
+from azure.cognitiveservices.speech import ResultReason
 from azure.core.credentials_async import AsyncTokenCredential
 from azure.search.documents.models import (
     VectorQuery,
@@ -15,8 +18,22 @@ MockToken = namedtuple("MockToken", ["token", "expires_on", "value"])
 
 
 class MockAzureCredential(AsyncTokenCredential):
+
     async def get_token(self, uri):
         return MockToken("", 9999999999, "")
+
+
+class MockAzureCredentialExpired(AsyncTokenCredential):
+
+    def __init__(self):
+        self.access_number = 0
+
+    async def get_token(self, uri):
+        self.access_number += 1
+        if self.access_number == 1:
+            return MockToken("", 0, "")
+        else:
+            return MockToken("", 9999999999, "")
 
 
 class MockBlobClient:
@@ -33,15 +50,8 @@ class MockBlob:
     async def readall(self):
         return b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\rIDATx\xdac\xfc\xcf\xf0\xbf\x1e\x00\x06\x83\x02\x7f\x94\xad\xd0\xeb\x00\x00\x00\x00IEND\xaeB`\x82"
 
-
-class MockKeyVaultSecret:
-    def __init__(self, value):
-        self.value = value
-
-
-class MockKeyVaultSecretClient:
-    async def get_secret(self, secret_name):
-        return MockKeyVaultSecret("mysecret")
+    async def readinto(self, buffer: BytesIO):
+        buffer.write(b"test")
 
 
 class MockAsyncPageIterator:
@@ -133,6 +143,9 @@ class MockAsyncSearchResultsIterator:
             raise StopAsyncIteration
         return MockAsyncPageIterator(self.data.pop(0))
 
+    async def get_count(self):
+        return len(self.data)
+
     def by_page(self):
         return self
 
@@ -155,6 +168,19 @@ class MockResponse:
         return json.loads(self.text)
 
 
+class MockEmbeddingsClient:
+    def __init__(self, create_embedding_response: openai.types.CreateEmbeddingResponse):
+        self.create_embedding_response = create_embedding_response
+
+    async def create(self, *args, **kwargs) -> openai.types.CreateEmbeddingResponse:
+        return self.create_embedding_response
+
+
+class MockClient:
+    def __init__(self, embeddings_client):
+        self.embeddings = embeddings_client
+
+
 def mock_computervision_response():
     return MockResponse(
         status=200,
@@ -175,3 +201,57 @@ def mock_computervision_response():
             }
         ),
     )
+
+
+class MockAudio:
+    def __init__(self, audio_data):
+        self.audio_data = audio_data
+        self.reason = ResultReason.SynthesizingAudioCompleted
+
+    def read(self):
+        return self.audio_data
+
+
+class MockSpeechSynthesisCancellationDetails:
+    def __init__(self):
+        self.reason = "Canceled"
+        self.error_details = "The synthesis was canceled."
+
+
+class MockAudioCancelled:
+    def __init__(self, audio_data):
+        self.audio_data = audio_data
+        self.reason = ResultReason.Canceled
+        self.cancellation_details = MockSpeechSynthesisCancellationDetails()
+
+    def read(self):
+        return self.audio_data
+
+
+class MockAudioFailure:
+    def __init__(self, audio_data):
+        self.audio_data = audio_data
+        self.reason = ResultReason.NoMatch
+
+    def read(self):
+        return self.audio_data
+
+
+class MockSynthesisResult:
+    def __init__(self, result):
+        self.__result = result
+
+    def get(self):
+        return self.__result
+
+
+def mock_speak_text_success(self, text):
+    return MockSynthesisResult(MockAudio("mock_audio_data"))
+
+
+def mock_speak_text_cancelled(self, text):
+    return MockSynthesisResult(MockAudioCancelled("mock_audio_data"))
+
+
+def mock_speak_text_failed(self, text):
+    return MockSynthesisResult(MockAudioFailure("mock_audio_data"))

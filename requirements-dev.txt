@@ -1,5 +1,4 @@
 -r app/backend/requirements.txt
--r scripts/requirements.txt
 ruff
 black
 pytest
@@ -13,4 +12,4 @@ pytest-snapshot
 pre-commit
 locust
 pip-tools
-mypy
+mypy==1.10.1

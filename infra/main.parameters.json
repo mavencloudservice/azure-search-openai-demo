@@ -60,7 +60,7 @@
       "value": "${AZURE_SEARCH_SERVICE_LOCATION}"
     },
     "searchServiceSkuName": {
-      "value": "${AZURE_SEARCH_SERVICE_SKU=standard}"
+      "value": "${AZURE_SEARCH_SERVICE_SKU=basic}"
     },
     "searchQueryLanguage": {
       "value": "${AZURE_SEARCH_QUERY_LANGUAGE=en-us}"
@@ -125,6 +125,9 @@
     "azureOpenAiApiVersion":{
       "value": "${AZURE_OPENAI_API_VERSION}"
     },
+    "azureOpenAiApiKey":{
+      "value": "${AZURE_OPENAI_API_KEY_OVERRIDE}"
+    },
     "openAiApiKey": {
       "value": "${OPENAI_API_KEY}"
     },
@@ -149,14 +152,44 @@
     "useGPT4V": {
       "value": "${USE_GPT4V=false}"
     },
+    "enableLanguagePicker": {
+      "value": "${ENABLE_LANGUAGE_PICKER=false}"
+    },
+    "useSpeechInputBrowser": {
+      "value": "${USE_SPEECH_INPUT_BROWSER=false}"
+    },
+    "useSpeechOutputBrowser": {
+      "value": "${USE_SPEECH_OUTPUT_BROWSER=false}"
+    },
+    "useSpeechOutputAzure": {
+      "value": "${USE_SPEECH_OUTPUT_AZURE=false}"
+    },
+    "speechServiceName": {
+      "value": "${AZURE_SPEECH_SERVICE}"
+    },
+    "speechServiceSkuName": {
+      "value": "${AZURE_SPEECH_SERVICE_SKU=S0}"
+    },
+    "speechServiceResourceGroupName": {
+      "value": "${AZURE_SPEECH_SERVICE_RESOURCE_GROUP}"
+    },
+    "speechServiceLocation": {
+      "value": "${AZURE_SPEECH_SERVICE_LOCATION}"
+    },
     "useAuthentication": {
       "value": "${AZURE_USE_AUTHENTICATION=false}"
     },
     "enforceAccessControl": {
       "value": "${AZURE_ENFORCE_ACCESS_CONTROL=false}"
     },
-    "tenantId": {
-      "value": "${AZURE_TENANT_ID}"
+    "disableAppServicesAuthentication": {
+      "value": "${AZURE_DISABLE_APP_SERVICES_AUTHENTICATION=false}"
+    },
+    "enableGlobalDocuments": {
+      "value": "${AZURE_ENABLE_GLOBAL_DOCUMENT_ACCESS=false}"
+    },
+    "enableUnauthenticatedAccess": {
+      "value": "${AZURE_ENABLE_UNAUTHENTICATED_ACCESS=false}"
     },
     "authTenantId": {
       "value": "${AZURE_AUTH_TENANT_ID}"
@@ -176,14 +209,41 @@
     "allowedOrigin": {
       "value": "${ALLOWED_ORIGIN}"
     },
+    "publicNetworkAccess": {
+      "value": "${AZURE_PUBLIC_NETWORK_ACCESS=Enabled}"
+    },
+    "usePrivateEndpoint": {
+      "value": "${AZURE_USE_PRIVATE_ENDPOINT=false}"
+    },
+    "bypass": {
+      "value": "${AZURE_NETWORK_BYPASS=AzureServices}"
+    },
     "useIntegratedVectorization": {
       "value": "${USE_FEATURE_INT_VECTORIZATION}"
+    },
+    "useUserUpload": {
+      "value": "${USE_USER_UPLOAD}"
+    },
+    "useLocalPdfParser": {
+      "value": "${USE_LOCAL_PDF_PARSER}"
+    },
+    "useLocalHtmlParser": {
+      "value": "${USE_LOCAL_HTML_PARSER}"
     },
     "runningOnGh": {
       "value": "${GITHUB_ACTIONS}"
     },
     "runningOnAdo": {
       "value": "${TF_BUILD}"
+    },
+    "deploymentTarget": {
+      "value": "${DEPLOYMENT_TARGET=appservice}"
+    },
+    "webAppExists": {
+        "value": "${SERVICE_WEB_RESOURCE_EXISTS=false}"
+    },
+    "azureContainerAppsWorkloadProfile": {
+      "value": "${AZURE_CONTAINER_APPS_WORKLOAD_PROFILE=Consumption}"
     }
   }
 }

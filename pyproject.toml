@@ -26,6 +26,11 @@ python_version = 3.9
 
 [[tool.mypy.overrides]]
 module = [
-    "msal.*"
+    "msal.*",
+    "msgraph.*",
+    "kiota_abstractions.*",
+    "kiota.*",
+    "azure.cognitiveservices.*",
+    "azure.cognitiveservices.speech.*",
 ]
 ignore_missing_imports = true

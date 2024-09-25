@@ -1,5 +1,5 @@
 import { Stack, Pivot, PivotItem } from "@fluentui/react";
-
+import { useTranslation } from "react-i18next";
 import styles from "./AnalysisPanel.module.css";
 
 import { SupportingContent } from "../SupportingContent";
@@ -24,12 +24,13 @@ interface Props {
 const pivotItemDisabledStyle = { disabled: true, style: { color: "grey" } };
 
 export const AnalysisPanel = ({ answer, activeTab, activeCitation, citationHeight, className, onActiveTabChanged }: Props) => {
-    const isDisabledThoughtProcessTab: boolean = !answer.choices[0].context.thoughts;
-    const isDisabledSupportingContentTab: boolean = !answer.choices[0].context.data_points;
+    const isDisabledThoughtProcessTab: boolean = !answer.context.thoughts;
+    const isDisabledSupportingContentTab: boolean = !answer.context.data_points;
     const isDisabledCitationTab: boolean = !activeCitation;
     const [citation, setCitation] = useState("");
 
     const client = useLogin ? useMsal().instance : undefined;
+    const { t } = useTranslation();
 
     const fetchCitation = async () => {
         const token = client ? await getToken(client) : undefined;
@@ -39,7 +40,7 @@ export const AnalysisPanel = ({ answer, activeTab, activeCitation, citationHeigh
             const originalHash = activeCitation.indexOf("#") ? activeCitation.split("#")[1] : "";
             const response = await fetch(activeCitation, {
                 method: "GET",
-                headers: getHeaders(token)
+                headers: await getHeaders(token)
             });
             const citationContent = await response.blob();
             let citationObjectUrl = URL.createObjectURL(citationContent);
@@ -78,21 +79,21 @@ export const AnalysisPanel = ({ answer, activeTab, activeCitation, citationHeigh
         >
             <PivotItem
                 itemKey={AnalysisPanelTabs.ThoughtProcessTab}
-                headerText="Thought process"
+                headerText={t("headerTexts.thoughtProcess")}
                 headerButtonProps={isDisabledThoughtProcessTab ? pivotItemDisabledStyle : undefined}
             >
-                <ThoughtProcess thoughts={answer.choices[0].context.thoughts || []} />
+                <ThoughtProcess thoughts={answer.context.thoughts || []} />
             </PivotItem>
             <PivotItem
                 itemKey={AnalysisPanelTabs.SupportingContentTab}
-                headerText="Supporting content"
+                headerText={t("headerTexts.supportingContent")}
                 headerButtonProps={isDisabledSupportingContentTab ? pivotItemDisabledStyle : undefined}
             >
-                <SupportingContent supportingContent={answer.choices[0].context.data_points} />
+                <SupportingContent supportingContent={answer.context.data_points} />
             </PivotItem>
             <PivotItem
                 itemKey={AnalysisPanelTabs.CitationTab}
-                headerText="Citation"
+                headerText={t("headerTexts.citation")}
                 headerButtonProps={isDisabledCitationTab ? pivotItemDisabledStyle : undefined}
             >
                 {renderFileViewer()}

@@ -40,7 +40,7 @@ class AdlsGen2Setup:
         filesystem_name
             Name of the container / filesystem in the Data Lake Storage Gen 2 account to use
         security_enabled_groups
-            When creating groups in Azure AD, whether or not to make them security enabled
+            When creating groups in Microsoft Entra, whether or not to make them security enabled
         data_access_control_format
             File describing how to create groups, upload files with access control. See the sampleacls.json for the format of this file
         """
@@ -135,8 +135,11 @@ class AdlsGen2Setup:
                 logging.info(f"Could not find group {group_name}, creating...")
                 group = {
                     "displayName": group_name,
-                    "groupTypes": ["Unified"],
                     "securityEnabled": self.security_enabled_groups,
+                    "groupTypes": ["Unified"],
+                    # If Unified does not work for you, then you may need the following settings instead:
+                    # "mailEnabled": False,
+                    # "mailNickname": group_name,
                 }
                 async with session.post("https://graph.microsoft.com/v1.0/groups", json=group) as response:
                     content = await response.json()
@@ -177,7 +180,7 @@ if __name__ == "__main__":
         "--create-security-enabled-groups",
         required=False,
         action="store_true",
-        help="Whether or not the sample groups created are security enabled in Azure AD",
+        help="Whether or not the sample groups created are security enabled in Microsoft Entra",
     )
     parser.add_argument(
         "--data-access-control", required=True, help="JSON file describing access control for the sample data"
